@@ -3,7 +3,6 @@
   User: habib
   Date: 3/10/22
   Time: 10:32 AM
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">

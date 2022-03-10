@@ -3,7 +3,6 @@
   User: habib
   Date: 3/9/22
   Time: 7:15 PM
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="java.util.List" %>
 <%@ page import="com.habib.eshop.dto.ProductDTO" %>

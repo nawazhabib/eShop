@@ -5,6 +5,7 @@ import com.habib.eshop.dto.LoginDTO;
 import com.habib.eshop.repository.UserRepositoryImpl;
 import com.habib.eshop.service.UserService;
 import com.habib.eshop.service.UserServiceImpl;
+import com.habib.eshop.util.SecurityContext;
 import com.habib.eshop.util.ValidationUtil;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +24,15 @@ public class LoginServlet extends HttpServlet {
 
     private UserService userService = new UserServiceImpl(new UserRepositoryImpl());
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         LOGGER.info("Saving login page");
+
+        String logout = req.getParameter("logout");
+        if(logout != null && Boolean.parseBoolean(logout)){
+            req.setAttribute("message", "You have been successfully logged out.");
+        }
 
         req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req, resp);
     }
@@ -60,12 +67,6 @@ public class LoginServlet extends HttpServlet {
     private void login(LoginDTO loginDTO, HttpServletRequest req) throws UserNotFoundException{
         User user = userService.verifyUser(loginDTO);
 
-        HttpSession oldSession = req.getSession(false);
-        if(oldSession != null){
-            oldSession.invalidate();
-        }
-
-        HttpSession session = req.getSession(true);
-        session.setAttribute("user", user);
+        SecurityContext.login(req, user);
     }
 }

@@ -14,11 +14,12 @@
 
 <%@include file="includes/header.jsp" %>
 <%@include file="includes/navigation.jsp" %>
+<%@ taglib prefix="sec" uri="http://habib.com/functions" %>
 
 <div class="container">
     <div class="jumbotron">
-        <c: if test="${sessionScope.user != null}">
-            <h1>Hello <c:out value="${sessionScope.user.firstName}"/> </h1>
+        <c: if test="${sec:isAuthenticated(pageContext.request)}">
+            <h1>Hello <c:out value="${sec:getCurrentUser(pageContext.request).firstName}"/> </h1>
         <h1>Welcome to eShop </h1>
         </c:>
 

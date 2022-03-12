@@ -2,6 +2,7 @@ package com.habib.eshop.service;
 
 import com.habib.eshop.dto.LoginDTO;
 import com.habib.eshop.dto.UserDTO;
+import com.habib.eshop.exception.UserNotFoundException;
 import com.habib.eshop.repository.UserRepository;
 import com.habib.eshop.domain.User;
 

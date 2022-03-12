@@ -1,6 +1,4 @@
-package com.habib.eshop.validator;
-
-import com.habib.eshop.ennotation.PasswordEqual;
+package com.habib.eshop.util;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -12,31 +10,37 @@ public class PasswordEqualValidator implements ConstraintValidator<PasswordEqual
     private String secondFieldName;
     private String message;
 
-    public void initialize(PasswordEqual constraint){
+    public void initialize(PasswordEqual constraint) {
         firstFieldName = constraint.first();
         secondFieldName = constraint.second();
         message = constraint.message();
     }
-    public boolean isValid(Object value, ConstraintValidatorContext context){
+
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
         boolean valid = true;
         try {
+
             final Object firstObj = getValue(value, firstFieldName);
             final Object secondObj = getValue(value, secondFieldName);
 
             valid = Objects.equals(firstObj, secondObj);
-        } catch (final Exception ignore){
-            //ignor
+        } catch (final Exception ignore) {
+            // ignore
         }
+
+        if (!valid) {
+            context.buildConstraintViolationWithTemplate(message)
+                    .addPropertyNode(firstFieldName)
+                    .addConstraintViolation()
+                    .disableDefaultConstraintViolation();
+        }
+
+        return valid;
     }
-    if(!valid){
-        context.buildConstraintViolationWithTemplate(message)
-                .addPropertyNode(firstFieldName)
-                .addConstraintViolation()
-                .disableDefaultConstraintViolation();
-    }
-    return valid;
-    private Object getValue(Objects objects, String fieldName) throws NoSuchFieldException, IllegalAccessException{
-        Field field = objects.getClass().getDeclaredField(fieldName);
+
+    public Object getValue(Object object, String fieldName)
+            throws NoSuchFieldException, IllegalAccessException {
+        Field field = object.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
 
         return field.get(object);

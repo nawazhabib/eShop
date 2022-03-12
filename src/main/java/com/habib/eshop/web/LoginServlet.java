@@ -2,6 +2,7 @@ package com.habib.eshop.web;
 
 import com.habib.eshop.domain.User;
 import com.habib.eshop.dto.LoginDTO;
+import com.habib.eshop.exception.UserNotFoundException;
 import com.habib.eshop.repository.UserRepositoryImpl;
 import com.habib.eshop.service.UserService;
 import com.habib.eshop.service.UserServiceImpl;
@@ -41,7 +42,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         var loginDTO = new LoginDTO(req.getParameter("username"), req.getParameter("password"));
 
-        LOGGER.info("Received long data: {}", loginDTO);
+        LOGGER.info("Received long data: {}");
 
         var errors = ValidationUtil.getInstance().validate(loginDTO);
 
@@ -56,7 +57,7 @@ public class LoginServlet extends HttpServlet {
             LOGGER.info("Login successful, redirecting to home page");
             resp.sendRedirect("/home");
         } catch (UserNotFoundException e){
-            LOGGER.error("incorrect username/password", e);
+            LOGGER.info("incorrect username/password");
 
             errors.put("username", "Incorrect username/password");
             req.setAttribute("errors", errors);
@@ -64,7 +65,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    private void login(LoginDTO loginDTO, HttpServletRequest req) throws UserNotFoundException{
+    private void login(LoginDTO loginDTO, HttpServletRequest req) throws UserNotFoundException {
         User user = userService.verifyUser(loginDTO);
 
         SecurityContext.login(req, user);

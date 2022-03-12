@@ -1,4 +1,8 @@
-package com.habib.eshop.ennotation;
+package com.habib.eshop.util;
+
+
+
+import com.habib.eshop.util.PasswordEqualValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

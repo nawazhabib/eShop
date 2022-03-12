@@ -1,6 +1,6 @@
 package com.habib.eshop.dto;
 
-import com.habib.eshop.ennotation.PasswordEqual;
+import com.habib.eshop.util.PasswordEqual;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

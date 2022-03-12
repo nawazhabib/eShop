@@ -1,8 +1,17 @@
 package com.habib.eshop.dto;
 
+import com.habib.eshop.ennotation.PasswordEqual;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+
+@PasswordEqual(
+        first = "password",
+        second = "passwordConfirmed",
+        message = "password and confirm password do not match"
+)
 
 public class UserDTO {
     @NotEmpty

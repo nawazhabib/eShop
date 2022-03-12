@@ -5,8 +5,8 @@
   Time: 8:13 PM
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp" %>
-<%@include file="navigation.jsp" %>
+<%@include file="includes/header.jsp" %>
+<%@include file="includes/navigation.jsp" %>
 
 <div class="container">
     <h2 class="h2">Sign Up</h2>
@@ -82,6 +82,12 @@
             <button class="btn btn-primary btn-lg" type="submit">Signup
             </button>
         </div>
+
+        <span>
+            Don't have a user account?
+            <a class="btn-link" herf="<c:url value="/signup"/> ">Signup</a>
+        </span>
+
     </form>
 </div>
 
@@ -97,4 +103,4 @@
     }
 </script>
 
-<%@include file="footer.jsp" %>
+<%@include file="includes/footer.jsp" %>

@@ -1,4 +1,4 @@
-package domain;
+package com.habib.eshop.domain;
 
 public class User {
     private String username;

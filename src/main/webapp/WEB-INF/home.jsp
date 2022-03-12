@@ -17,7 +17,11 @@
 
 <div class="container">
     <div class="jumbotron">
+        <c: if test="${sessionScope.user != null}">
+            <h1>Hello <c:out value="${sessionScope.user.firstName}"/> </h1>
         <h1>Welcome to eShop </h1>
+        </c:>
+
         <img src="<c:url value="/image/shopingCart.jpg"/>" style="height: 200px"
              alt=""/>
     </div>

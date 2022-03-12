@@ -1,8 +1,13 @@
 package com.habib.eshop.service;
 
+import com.habib.eshop.dto.LoginDTO;
 import com.habib.eshop.dto.UserDTO;
 import com.habib.eshop.repository.UserRepository;
-import domain.User;
+import com.habib.eshop.domain.User;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
@@ -23,8 +28,42 @@ public class UserServiceImpl implements UserService{
 
         userRepository.save(user);
     }
+
+    @Override
+    public boolean isNotUniqueUsername(UserDTO user){
+        return userRepository.findByUsername(user.getUsername()).isPresent();
+    }
+
     private String encryptPassword(String password){
-        //we will implement it later
-        return password;
+        try{
+            var digest = MessageDigest.getInstance("SH-256");
+            var bytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return bytesToHex(bytes);
+        } catch (NoSuchAlgorithmException e){
+            throw new RuntimeException("Unable to encrypt password", e);
+        }
+    }
+    private static String bytesToHex(byte[] hash){
+        StringBuilder hexString = new StringBuilder();
+
+        for(byte b : hash){
+            String hex = Integer.toHexString(0xff & b);
+            if(hex.length() == 1){
+                hexString.append(hex);
+            }
+        }
+        return hexString.toString();
+    }
+
+    @Override
+    public User verifyUser(LoginDTO loginDTO){
+        var user = userRepository.findByUsername(loginDTO.getUsername())
+                .orElseThrow(()-> new UserNotFoundException("User not found by " + loginDTO.getUsername()));
+        var encrypted = encryptPassword(loginDTO.getPassword());
+        if(user.getPassword().equals(encrypted)){
+            return user;
+        } else {
+            throw new UserNotFoundException("Incorrect username password");
+        }
     }
 }

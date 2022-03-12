@@ -1,4 +1,4 @@
-package validator;
+package com.habib.eshop.validator;
 
 import com.habib.eshop.ennotation.PasswordEqual;
 

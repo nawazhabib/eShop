@@ -1,8 +1,7 @@
 package com.habib.eshop.web;
 
 import com.habib.eshop.dto.UserDTO;
-import com.habib.eshop.repository.UserRepositoryImpl;
-import com.habib.eshop.service.UserServiceImpl;
+import com.habib.eshop.util.ValidationUtil;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
@@ -27,19 +26,33 @@ public class SignupServlet extends HttpServlet {
         LOGGER.info("serving signup page");
         req.getRequestDispatcher("WEB-INF/signup.jsp").forward(req, resp);
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserDTO userDTO = copyParametersTo(req);
-        Map<String, String> errors = validate(userDTO);
+        var userDTO = copyParametersTo(req);
+        var errors = ValidationUtil.getInstance().validate(userDTO);
 
-        if (errors.isEmpty()) {
-            LOGGER.info("user is valid, creating a new user with: {}", userDTO);
-            userService.saveUsre(userDTO);
-            resp.sendRedirect("/home");
-        } else {
+        if(!errors.isEmpty()){
+            req.setAttribute("userDto", userDTO);
             req.setAttribute("errors", errors);
+
             LOGGER.info("User sent invalid data: {}", userDTO);
+
+            req.getRequestDispatcher("/WEB_INF/signup.jsp").forward(req, resp);
+
+        } else if (userService.isNotUniqueUsername(userDTO)){
+            LOGGER.info("Username: {} is already exists. Please use a different username");
+
+            req.setAttribute("userDto", userDTO);
+            req.setAttribute("errors", errors);
+
             req.getRequestDispatcher("/WEB-INF/signup.jsp").forward(req, resp);
+
+        } else {
+            LOGGER.info("user is valid, creating a new user with: {}", userDTO);
+
+            userService.saveUser(userDTO);
+            resp.sendRedirect("/login");
         }
     }
 

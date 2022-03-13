@@ -25,28 +25,6 @@
         </div>
 
         <div class="form-group">
-            <label for="email">First Name</label>
-            <input type="text" class="form-control" id="firstName"
-                   value="${userDto.firstName}"
-                   name="firstName"
-            />
-            <c:if test="${errors.firstName !=null}">
-                <small class="text-danger"> ${errors.firstName}</small>
-            </c:if>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Last Name</label>
-            <input type="text" class="form-control" id="lastName"
-                   value="${userDto.lastName}"
-                   name="lastName"
-            />
-            <c:if test="${errors.lastName !=null}">
-                <small class="text-danger"> ${errors.lastName}</small>
-            </c:if>
-        </div>
-
-        <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email"
                    name="email"
@@ -77,17 +55,33 @@
             </c:if>
         </div>
 
+        <div class="form-group">
+            <label for="email">First Name</label>
+            <input type="text" class="form-control" id="firstName"
+                   value="${userDto.firstName}"
+                   name="firstName"
+            />
+            <c:if test="${errors.firstName !=null}">
+                <small class="text-danger"> ${errors.firstName}</small>
+            </c:if>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Last Name</label>
+            <input type="text" class="form-control" id="lastName"
+                   value="${userDto.lastName}"
+                   name="lastName"
+            />
+            <c:if test="${errors.lastName !=null}">
+                <small class="text-danger"> ${errors.lastName}</small>
+            </c:if>
+        </div>
+
         <hr class="mb-4">
         <div class="form-group">
             <button class="btn btn-primary btn-lg" type="submit">Signup
             </button>
         </div>
-
-        <span>
-            Don't have a user account?
-            <a class="btn-link" herf="<c:url value="/signup"/> ">Signup</a>
-        </span>
-
     </form>
 </div>
 
@@ -102,5 +96,4 @@
         return true;
     }
 </script>
-
 <%@include file="includes/footer.jsp" %>

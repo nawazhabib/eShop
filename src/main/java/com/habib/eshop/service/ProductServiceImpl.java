@@ -9,11 +9,14 @@ import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService{
     private ProductRepository productRepository;
-    public ProductServiceImpl(ProductRepository productRepository){
+
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
     @Override
-    public List<ProductDTO> findAllProductSortedByName(){
+    public List<ProductDTO> findAllProductSortedByName() {
+
         return productRepository.findAllProducts()
                 .stream()
                 .sorted(Comparator.comparing(ProductDTO::getName))

@@ -1,30 +1,24 @@
 <%--
   Created by IntelliJ IDEA.
   User: habib
-  Date: 3/9/22
-  Time: 7:15 PM
+  Date: 3/14/22
+  Time: 1:02 AM
+  To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="java.util.List" %>
-<%@ page import="com.habib.eshop.dto.ProductDTO" %>
-
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+<%@ taglib prefix="sec" uri="http://habib.com/functions" %>
 <%@include file="includes/header.jsp" %>
 <%@include file="includes/navigation.jsp" %>
-<%@ taglib prefix="sec" uri="http://habib.com/functions" %>
 
 <div class="container">
     <div class="jumbotron">
-        <c: if test="${sec:isAuthenticated(pageContext.request)}">
-            <h1>Hello <c:out value="${sec:getCurrentUser(pageContext.request).firstName}"/> </h1>
-        <h1>Welcome to eShop </h1>
-        </c:>
+        <c:if test="${sec:isAuthenticated(pageContext.request)}">
+            <h1> Hello <c:out value="${sec:getCurrentUser(pageContext.request).firstName}"/>,
+                Welcome to e-shoppers!
+            </h1>
+        </c:if>
 
-        <img src="<c:url value="/image/shopingCart.jpg"/>" style="height: 200px"
-             alt=""/>
+        <img src="<c:url value="/image/shopingCart.jpg"/>" style="height: 200px" alt=""/>
     </div>
 
     <div class="row">

@@ -4,6 +4,8 @@ import com.habib.eshop.dto.ProductDTO;
 import com.habib.eshop.repository.DummyProductRepositoryImpl;
 import com.habib.eshop.service.ProductService;
 import com.habib.eshop.service.ProductServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,12 +17,19 @@ import java.util.List;
 
 @WebServlet("/home")
 public class HomeServlet  extends HttpServlet {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomeServlet.class);
+
     private ProductService productService = new ProductServiceImpl(new DummyProductRepositoryImpl());
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LOGGER.info("Serving home page");
+
         List<ProductDTO> allProducts = productService.findAllProductSortedByName();
+        LOGGER.info("Total product found {}", allProducts.size());
+
         req.setAttribute("products", allProducts);
+
         req.getRequestDispatcher("/WEB-INF/home.jsp").forward(req, resp);
     }
 }

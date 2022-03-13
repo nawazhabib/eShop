@@ -6,9 +6,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<footer class="text-center text-white fixed-bottom" style="background-color: #062959;">
-    <div class="text-center p-3" style="background-color: rgba(194,194,194,0.2);">
-        © 2020 Copyright:
-        <a class="text-white">eShop.com</a>
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <span class="text-muted">Copyright &copy; eShoppers.com 2020</span>
     </div>
 </footer>

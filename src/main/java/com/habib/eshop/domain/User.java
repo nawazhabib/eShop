@@ -47,4 +47,17 @@ public class User {
         this.lastName = lastName;
     }
 
+
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass() ) return false;
+        User user = (User) o;
+
+        return username.equals(user.username);
+    }
+
+    @Override
+    public int hashCode(){
+        return Object.hash(username);
+    }
 }

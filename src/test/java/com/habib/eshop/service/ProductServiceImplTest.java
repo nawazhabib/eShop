@@ -1,6 +1,6 @@
 package com.habib.eshop.service;
 
-import com.habib.eshop.dto.ProductDTO;
+import com.habib.eshop.domain.Product;
 import com.habib.eshop.repository.ProductRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,12 +14,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ProductServiceImplTest {
-    private static final ProductDTO APPLE_PAD = new ProductDTO(
+    private static final Product APPLE_PAD = new Product(
+            1L,
             "Apple iPad",
             "Apple iPad 12.3 16GB",
             BigDecimal.valueOf(345.22));
 
-    private static final ProductDTO HEADPHONE = new ProductDTO(
+    private static final Product HEADPHONE = new Product(
+            2L,
             "Headphones",
             "Javra Elite Bluetooth Headphones",
             BigDecimal.valueOf(545.44));

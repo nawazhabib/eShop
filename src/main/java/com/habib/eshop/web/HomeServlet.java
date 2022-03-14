@@ -1,7 +1,7 @@
 package com.habib.eshop.web;
 
 import com.habib.eshop.dto.ProductDTO;
-import com.habib.eshop.repository.DummyProductRepositoryImpl;
+import com.habib.eshop.repository.ProductRepositoryImpl;
 import com.habib.eshop.service.ProductService;
 import com.habib.eshop.service.ProductServiceImpl;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import java.util.List;
 public class HomeServlet  extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeServlet.class);
 
-    private ProductService productService = new ProductServiceImpl(new DummyProductRepositoryImpl());
+    private ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

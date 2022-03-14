@@ -1,5 +1,6 @@
 package com.habib.eshop.service;
 
+import com.habib.eshop.domain.Product;
 import com.habib.eshop.dto.ProductDTO;
 import com.habib.eshop.repository.ProductRepository;
 
@@ -19,7 +20,16 @@ public class ProductServiceImpl implements ProductService{
 
         return productRepository.findAllProducts()
                 .stream()
+                .map(this::convertToDTO)
                 .sorted(Comparator.comparing(ProductDTO::getName))
                 .collect(Collectors.toList());
+    }
+    private ProductDTO convertToDTO(Product product){
+        return new ProductDTO(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice()
+        );
     }
 }

@@ -3,6 +3,7 @@ package com.habib.eshop.dto;
 import java.math.BigDecimal;
 
 public class ProductDTO {
+    private Long id;
     private String name;
     private String description;
     private BigDecimal price;
@@ -12,6 +13,10 @@ public class ProductDTO {
         this.description = description;
         this.price = price;
     }
+
+    public Long getId(){ return id; }
+
+    public void setId(){ this.id=id; }
 
     public String getName() {
         return name;

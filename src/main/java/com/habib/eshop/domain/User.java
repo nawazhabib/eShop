@@ -1,5 +1,7 @@
 package com.habib.eshop.domain;
 
+import java.util.Objects;
+
 public class User {
     private String username;
     private String password;
@@ -58,6 +60,6 @@ public class User {
 
     @Override
     public int hashCode(){
-        return Object.hash(username);
+        return Objects.hash(username);
     }
 }

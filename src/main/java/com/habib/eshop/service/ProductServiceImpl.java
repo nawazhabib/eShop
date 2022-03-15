@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService{
+
     private ProductRepository productRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {
@@ -24,7 +25,9 @@ public class ProductServiceImpl implements ProductService{
                 .sorted(Comparator.comparing(ProductDTO::getName))
                 .collect(Collectors.toList());
     }
-    private ProductDTO convertToDTO(Product product){
+
+    private ProductDTO convertToDTO(Product product) {
+
         return new ProductDTO(
                 product.getId(),
                 product.getName(),

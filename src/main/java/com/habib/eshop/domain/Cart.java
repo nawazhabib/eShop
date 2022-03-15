@@ -11,6 +11,14 @@ public class Cart {
     private Integer totalItem;
     private User user;
 
+    public void setCartItems(Set<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public Set<CartItem> getCartItems() {
+        return cartItems;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

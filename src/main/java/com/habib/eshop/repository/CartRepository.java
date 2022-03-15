@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface CartRepository {
     Optional<Cart> findByUser(User currentUser);
 
-    Cart save(CartItem cartItem);
-    Cart update(CartItem cartItem);
+    Cart save(Cart cart);
+
+    Cart update(Cart cart);
 }

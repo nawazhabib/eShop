@@ -1,7 +1,6 @@
 package com.habib.eshop.repository;
 
 import com.habib.eshop.domain.Cart;
-import com.habib.eshop.domain.CartItem;
 import com.habib.eshop.domain.User;
 
 import java.util.*;

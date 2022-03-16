@@ -5,9 +5,11 @@ import com.habib.eshop.domain.User;
 import com.habib.eshop.repository.CartItemRepositoryImpl;
 import com.habib.eshop.repository.CartRepositoryImpl;
 import com.habib.eshop.repository.ProductRepositoryImpl;
+import com.habib.eshop.service.Action;
 import com.habib.eshop.service.CartService;
 import com.habib.eshop.service.CartServiceImpl;
 import com.habib.eshop.util.SecurityContext;
+import com.habib.eshop.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
+
+import static com.habib.eshop.service.Action.ADD;
 
 @WebServlet("/add-to-cart")
 public class CartServlet extends HttpServlet {
@@ -30,15 +35,36 @@ public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         var productId = req.getParameter("productId");
+        var action = req.getParameter("productId");
+        var cart = getCart(req);
+
+        if(StringUtil.isNotEmpty(action)){
+            processCart(productId, action, cart);
+
+            resp.sendRedirect("/checkout");
+            return;
+        }
 
         LOGGER.info(
                 "Received request to add product with id: {} to cart",
                 productId);
 
-        var cart = getCart(req);
         cartService.addProductToCart(productId, cart);
 
         resp.sendRedirect("/home");
+    }
+
+    private void processCart(String productId, String action, Cart cart){
+        switch (Action.valueOf(action.toUpperCase())){
+            case ADD:
+                LOGGER.info("Recived request to add product with id: {} to cart", productId);
+                cartService.addProductToCart(productId, cart);
+                break;
+            case REMOVE:
+                LOGGER.info("Received request to remove product with id: {} to cart", productId);
+                cartService.removeProductToCart(productId, cart);
+                break;
+        }
     }
 
     private Cart getCart(HttpServletRequest req) {

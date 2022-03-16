@@ -145,7 +145,7 @@ public class CartServiceImplTest {
 
     @Test
     public void testAddProductToCart_givenSimilarProductAlreadyInCart_shouldIncreaseCartItemQuantity() {
-        //arrange
+
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(TEST_PRODUCT));
 
         CartItem cartItem = new CartItem();
@@ -160,10 +160,8 @@ public class CartServiceImplTest {
         when(cartItemRepository.update(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
         when(cartRepository.update(argumentCaptor.capture())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
-        //act
         cartService.addProductToCart("1", cart);
 
-        //assert
         Cart captorValue = argumentCaptor.getValue();
         assertThat(captorValue.getCartItems().size(), CoreMatchers.is(1));
         assertThat(captorValue.getTotalItem(), CoreMatchers.is(2));

@@ -4,6 +4,7 @@ import com.habib.eshop.domain.Order;
 import com.habib.eshop.domain.ShippingAddress;
 import com.habib.eshop.domain.User;
 import com.habib.eshop.dto.ShippingAddressDTO;
+import com.habib.eshop.exception.CartItemNotFoundException;
 import com.habib.eshop.repository.CartRepository;
 import com.habib.eshop.repository.OrderRepository;
 import com.habib.eshop.repository.ShippingAddressRepository;

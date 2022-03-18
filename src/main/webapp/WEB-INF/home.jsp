@@ -3,7 +3,6 @@
   User: habib
   Date: 3/14/22
   Time: 1:02 AM
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://habib.com/functions" %>
@@ -38,12 +37,22 @@
                             <p>
                                 Total Price: $ <c:out value="${cart.totalPrice}"/>
                             </p>
-                            <p><a class="btn btn-outline-info" href="<c:url value="/checkout"/> ">Checkout </a></p>
+                            <p><a class="btn btn-outline-info"
+                                  href="<c:url value="/checkout"/>">Checkout </a>
+                            </p>
                         </div>
                     </div>
                 </c:if>
             </div>
         </div>
+    </div>
+
+    <div class="row">
+        <c:if test="${message != null}">
+            <div class="alert alert-success">
+                    ${message}
+            </div>
+        </c:if>
     </div>
 
     <div class="row">

@@ -1,18 +1,43 @@
 package com.habib.eshop.repository;
 
 import com.habib.eshop.domain.Cart;
+import com.habib.eshop.domain.Order;
 import com.habib.eshop.domain.User;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CartRepositoryImpl implements CartRepository{
-    private static final Map<User, Set<Cart>>
+    private static final Map<User, LinkedHashSet<Cart>>
             CARTS = new ConcurrentHashMap<>();
+
+    private OrderRepository orderRepository = new OrderRepositoryImpl();
 
     @Override
     public Optional<Cart> findByUser(User currentUser) {
+        var usersCart = getCart(currentUser);
+        if (usersCart.isPresent()) {
+            var cart = usersCart.get();
+            var orders = orderRepository.findOrderByUser(currentUser);
 
+            if (isOrderAlreadyPlacedWith(orders, cart)) {
+
+                return Optional.empty();
+            } else {
+                return Optional.of(cart);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private boolean isOrderAlreadyPlacedWith(
+            Set<Order> orderByUser, Cart cart) {
+
+        return orderByUser.stream()
+                .anyMatch(order -> order.getCart().equals(cart));
+    }
+
+    private Optional<Cart> getCart(User currentUser) {
         var carts = CARTS.get(currentUser);
         if (carts != null && !carts.isEmpty()) {
 
@@ -50,7 +75,6 @@ public class CartRepositoryImpl implements CartRepository{
 
                     return new LinkedHashSet<>(Arrays.asList(objects));
                 });
-
         return cart;
     }
 }

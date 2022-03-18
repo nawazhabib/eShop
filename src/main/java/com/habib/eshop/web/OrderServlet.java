@@ -12,15 +12,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.util.List;
 
+@WebServlet("/order")
 public class OrderServlet extends HttpServlet {
-    private String final Logger LOGGER = LoggerFactory.getLogger(OrderServlet.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderServlet.class);
 
     private CartService cartService = new CartServiceImpl(
             new CartRepositoryImpl(),
@@ -34,7 +36,7 @@ public class OrderServlet extends HttpServlet {
     );
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws SerialException, IOException{
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         addCartToUi(req);
         req.setAttribute("countries", getCountries());
 
@@ -65,7 +67,7 @@ public class OrderServlet extends HttpServlet {
             addCartToUi(req);
             req.getRequestDispatcher("/WEB-INF/order.jsp").forward(req, resp);
         } else {
-            orderService.processOrder(shippingAddress, SecurityContext.getCurrentUser(req));
+            orderService.processOrdre(shippingAddress, SecurityContext.getCurrentUser(req));
             resp.sendRedirect("/home?orderSuccess=true");
         }
     }

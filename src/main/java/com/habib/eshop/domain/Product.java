@@ -2,21 +2,13 @@ package com.habib.eshop.domain;
 
 import java.math.BigDecimal;
 
-public class Product {
-    private Long id;
+public class Product extends Domain{
     private String name;
     private String description;
     private BigDecimal price;
 
-    public Product(Long id, String name, String description, BigDecimal price){
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
+    public Product(){
 
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -31,10 +23,6 @@ public class Product {
         this.price = price;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -46,5 +34,4 @@ public class Product {
     public BigDecimal getPrice() {
         return price;
     }
-
 }

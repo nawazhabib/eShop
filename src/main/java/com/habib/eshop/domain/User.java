@@ -2,7 +2,7 @@ package com.habib.eshop.domain;
 
 import java.util.Objects;
 
-public class User {
+public class User extends Domain{
     private String username;
     private String password;
     private String email;

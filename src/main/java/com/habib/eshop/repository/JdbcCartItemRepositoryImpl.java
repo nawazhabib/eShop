@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class JdbcCartItemRepositoryImpl implements CartItemRepository{
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcCartItemRepositoryImpl.class);
@@ -55,7 +56,35 @@ public class JdbcCartItemRepositoryImpl implements CartItemRepository{
 
     @Override
     public CartItem update(CartItem cartItem){
-        return null;
+        cartItem.setVersion(cartItem.getVersion()+1);
+
+        var cartItemToUpdate = findOne(cartItem.getId()).orElseThrow(()-> new CartNotFoundException(
+                "Cart item not found by Id, +" + cartItem.getId()
+        ));
+
+        if(cartItem.getVersion() <= (cartItemToUpdate.getVersion())){
+            throw new OptimisticLockingFailureException("CartItem is already updated by another request");
+        }
+
+        cartItemToUpdate.setDateLastUpdated(LocalDateTime.now());
+        cartItemToUpdate.setVersion(cartItem.getVersion());
+        cartItemToUpdate.setProduct(cartItem.getProduct());
+        cartItemToUpdate.setQuantity(cartItem.getQuantity());
+        cartItemToUpdate.setPrice(cartItem.getPrice());
+
+        try(var connection = dataSource.getConnection(); var preparedStatement = connection.prepareStatement(UPDATE_CART_ITEM)){
+            preparedStatement.setInt(1, cartItemToUpdate.getQuantity());
+            preparedStatement.setBigDecimal(2, cartItemToUpdate.getPrice());
+            preparedStatement.setLong(3, cartItemToUpdate.getVersion());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(cartItemToUpdate.getDateLastUpdated()));
+            preparedStatement.setLong(5, cartItemToUpdate.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            LOGGER.error("Unable to updatee cart time: {}", cartItem, e);
+            throw new RuntimeException("Unable to update cartItem", e);
+        }
+        return cartItemToUpdate;
     }
 
     @Override

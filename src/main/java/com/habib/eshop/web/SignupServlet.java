@@ -1,6 +1,7 @@
 package com.habib.eshop.web;
 
 import com.habib.eshop.dto.UserDTO;
+import com.habib.eshop.repository.JdbcUserRepositoryImpl;
 import com.habib.eshop.repository.UserRepositoryImpl;
 import com.habib.eshop.service.UserService;
 import com.habib.eshop.service.UserServiceImpl;
@@ -19,7 +20,7 @@ import java.io.IOException;
 public class SignupServlet extends HttpServlet {
     private final static Logger LOGGER = LoggerFactory.getLogger(SignupServlet.class);
 
-    private UserService userService = new UserServiceImpl(new UserRepositoryImpl());
+    private UserService userService = new UserServiceImpl(new JdbcUserRepositoryImpl());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

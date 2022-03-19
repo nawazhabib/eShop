@@ -3,14 +3,10 @@ package com.habib.eshop.domain;
 import java.math.BigDecimal;
 
 public class CartItem {
-    private Long id;
     private Product product;
     private Integer quantity;
     private BigDecimal price;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setProduct(Product product) {
         this.product = product;
@@ -22,10 +18,6 @@ public class CartItem {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public Product getProduct() {

@@ -7,8 +7,8 @@ import java.util.Set;
 public class Cart {
     private Long id;
     private Set<CartItem> cartItems = new HashSet<>();
-    private BigDecimal totalPrice;
-    private Integer totalItem;
+    private BigDecimal totalPrice = BigDecimal.ZERO;
+    private Integer totalItem = 0;
     private User user;
 
     public void setCartItems(Set<CartItem> cartItems) {

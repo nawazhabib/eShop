@@ -1,6 +1,8 @@
 package com.habib.eshop.repository;
 
 import com.habib.eshop.domain.CartItem;
+import com.habib.eshop.exception.CartNotFoundException;
+import com.habib.eshop.exception.OptimisticLockingFailureException;
 import com.habib.eshop.jdbc.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class JdbcCartItemRepositoryImpl implements CartItemRepository{
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcCartItemRepositoryImpl.class);
@@ -87,7 +92,49 @@ public class JdbcCartItemRepositoryImpl implements CartItemRepository{
         return cartItemToUpdate;
     }
 
+    public static final String DELETE_CART = "DELETE FROM cart_item WHERE id ?";
+
     @Override
     public void remove(CartItem cartItem){
+        try(var connection = dataSource.getConnection(); var preparedStatement = connection.prepareStatement(DELETE_CART)){
+            preparedStatement.setLong(1, cartItem.getId());
+            preparedStatement.execute();
+        } catch (SQLException e){
+            LOGGER.error("Unable to delete cartItem by id: {}", cartItem.getId(), e);
+            throw new RuntimeException("Unable to delete cartItem", e);
+        }
+    }
+
+    private Optional<CartItem> findOne(Long id){
+        try(var connection = dataSource.getConnection(); var preparedStatement = connection.prepareStatement(SELECT_CART_ITEM)){
+            var resultSet = preparedStatement.executeQuery();
+
+            List<CartItem> cartItems = extractCartItems(resultSet);
+
+            if(cartItems.size() > 0){
+                return Optional.of(cartItems.get(0))
+            }
+        } catch (SQLException e){
+            LOGGER.error("Unable to find cartItem by id: {}", id, e);
+            throw new RuntimeException("Unable to find cartItem", e);
+        }
+        return Optional.empty();
+    }
+
+    private List<CartItem> extractCartItems(ResultSet resultSet) throws SQLException{
+        List<CartItem> cartItems = new ArrayList<>();
+
+        while (resultSet.next()){
+            var cartItem  = new CartItem();
+            cartItem.setId(resultSet.getLong("id"));
+            cartItem.setQuantity(resultSet.getInt("quantity"));
+            cartItem.setPrice(resultSet.getBigDecimal("price"));
+            cartItem.setVersion(resultSet.getLong("version"));
+            cartItem.setDateCreated(resultSet.getTimestamp("date_created").toLocalDateTime());
+            cartItem.setDateLastUpdated(resultSet.getTimestamp("date_last_updated").toLocalDateTime());
+
+            cartItem.add(cartItem);
+        }
+        return cartItems;
     }
 }

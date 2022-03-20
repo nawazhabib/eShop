@@ -25,9 +25,9 @@ public class OrderServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServlet.class);
 
     private CartService cartService = new CartServiceImpl(
-            new CartRepositoryImpl(),
-            new ProductRepositoryImpl(),
-            new CartItemRepositoryImpl()
+            new JdbcCartRepositoryImpl(),
+            new JdbcProductRepositoryImpl(),
+            new JdbcCartItemRepositoryImpl()
             );
     private OrderService orderService = new OrderServiceImpl(
             new OrderRepositoryImpl(),

@@ -2,18 +2,14 @@ package com.habib.eshop.domain;
 
 import java.time.LocalDateTime;
 
-public class Order {
-    private Long id;
+public class Order extends Domain{
     private Cart cart;
     private ShippingAddress shippingAddress;
     private LocalDateTime shippingDate;
-    private Payment payment;
     private boolean shipped;
     private User user;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+
 
     public void setCart(Cart cart) {
         this.cart = cart;
@@ -27,10 +23,6 @@ public class Order {
         this.shippingDate = shippingDate;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
     public void setShipped(boolean shipped) {
         this.shipped = shipped;
     }
@@ -39,9 +31,6 @@ public class Order {
         this.user = user;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public Cart getCart() {
         return cart;
@@ -53,10 +42,6 @@ public class Order {
 
     public LocalDateTime getShippingDate() {
         return shippingDate;
-    }
-
-    public Payment getPayment() {
-        return payment;
     }
 
     public boolean isShipped() {

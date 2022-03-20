@@ -152,12 +152,8 @@ public class JdbcCartRepositoryImpl implements CartRepository {
         cart.setTotalPrice(resultSet.getBigDecimal("total_price"));
         cart.setTotalItem(resultSet.getInt("total_item"));
         cart.setVersion(resultSet.getLong("version"));
-        cart.setDateCreated(
-                resultSet.getTimestamp("date_created")
-                        .toLocalDateTime());
-        cart.setDateLastUpdated(
-                resultSet.getTimestamp("date_last_updated")
-                        .toLocalDateTime());
+        cart.setDateCreated(resultSet.getTimestamp("date_created").toLocalDateTime());
+        cart.setDateLastUpdated(resultSet.getTimestamp("date_last_updated").toLocalDateTime());
 
         return cart;
     }

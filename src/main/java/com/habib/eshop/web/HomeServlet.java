@@ -1,10 +1,7 @@
 package com.habib.eshop.web;
 
-import com.habib.eshop.domain.Cart;
 import com.habib.eshop.dto.ProductDTO;
-import com.habib.eshop.repository.CartItemRepositoryImpl;
-import com.habib.eshop.repository.CartRepositoryImpl;
-import com.habib.eshop.repository.ProductRepositoryImpl;
+import com.habib.eshop.repository.*;
 import com.habib.eshop.service.CartService;
 import com.habib.eshop.service.CartServiceImpl;
 import com.habib.eshop.service.ProductService;
@@ -28,9 +25,9 @@ public class HomeServlet  extends HttpServlet {
     private ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl());
 
     private CartService cartService = new CartServiceImpl(
-            new CartRepositoryImpl(),
-            new ProductRepositoryImpl(),
-            new CartItemRepositoryImpl()
+            new JdbcCartRepositoryImpl(),
+            new JdbcProductRepositoryImpl(),
+            new JdbcCartItemRepositoryImpl()
     );
 
     @Override

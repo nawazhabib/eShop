@@ -2,9 +2,7 @@ package com.habib.eshop.web;
 
 import com.habib.eshop.domain.Cart;
 import com.habib.eshop.domain.User;
-import com.habib.eshop.repository.CartItemRepositoryImpl;
-import com.habib.eshop.repository.CartRepositoryImpl;
-import com.habib.eshop.repository.ProductRepositoryImpl;
+import com.habib.eshop.repository.*;
 import com.habib.eshop.service.Action;
 import com.habib.eshop.service.CartService;
 import com.habib.eshop.service.CartServiceImpl;
@@ -18,18 +16,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Locale;
 
-import static com.habib.eshop.service.Action.ADD;
 
 @WebServlet("/add-to-cart")
 public class CartServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(CartServlet.class);
 
     private CartService cartService
-            = new CartServiceImpl(new CartRepositoryImpl(),
-            new ProductRepositoryImpl(),
-            new CartItemRepositoryImpl());
+            = new CartServiceImpl(new JdbcCartRepositoryImpl(),
+            new JdbcProductRepositoryImpl(),
+            new JdbcCartItemRepositoryImpl());
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

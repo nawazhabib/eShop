@@ -22,3 +22,6 @@
 
 #### Shipping Page
 ![shipping](shipping.png)
+
+#### Page Not Found
+![pagenotfound](pagenotfound.png)

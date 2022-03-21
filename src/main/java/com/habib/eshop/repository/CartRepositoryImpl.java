@@ -34,7 +34,7 @@ public class CartRepositoryImpl implements CartRepository{
             Set<Order> orderByUser, Cart cart) {
 
         return orderByUser.stream()
-                .anyMatch(order -> order.getCart().equals(cart));
+                .noneMatch(order -> order.getCart().equals(cart));
     }
 
     private Optional<Cart> getCart(User currentUser) {
@@ -75,6 +75,13 @@ public class CartRepositoryImpl implements CartRepository{
 
                     return new LinkedHashSet<>(Arrays.asList(objects));
                 });
+
         return cart;
+    }
+
+    @Override
+    public Optional<Cart> findOne(long cartId) {
+
+        return Optional.empty();
     }
 }

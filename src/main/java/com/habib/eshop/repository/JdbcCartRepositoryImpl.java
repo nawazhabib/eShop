@@ -4,9 +4,14 @@ package com.habib.eshop.repository;
 import com.habib.eshop.domain.Cart;
 import com.habib.eshop.domain.CartItem;
 import com.habib.eshop.domain.User;
+import com.habib.eshop.exception.CartNotFoundException;
+import com.habib.eshop.exception.OptimisticLockingFailureException;
+import com.habib.eshop.jdbc.JDBCTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class JdbcCartRepositoryImpl implements CartRepository {
@@ -105,15 +110,10 @@ public class JdbcCartRepositoryImpl implements CartRepository {
     @Override
     public Cart update(Cart cart) {
         cart.setVersion(cart.getVersion() + 1);
-        var cartToUpdate = findOne(cart.getId())
-                .orElseThrow(() ->
-                        new CartNotFoundException(
-                                "Shopping Cart not found by Id "
-                                        + cart.getId()));
+        var cartToUpdate = findOne(cart.getId()).orElseThrow(() -> new CartNotFoundException("Shopping Cart not found by Id " + cart.getId()));
 
         if (cart.getVersion() <= (cartToUpdate.getVersion())) {
-            throw new OptimisticLockingFailureException(
-                    "Shopping cart is already updated by another request"
+            throw new OptimisticLockingFailureException("Shopping cart is already updated by another request"
             );
         }
 
@@ -152,8 +152,10 @@ public class JdbcCartRepositoryImpl implements CartRepository {
         cart.setTotalPrice(resultSet.getBigDecimal("total_price"));
         cart.setTotalItem(resultSet.getInt("total_item"));
         cart.setVersion(resultSet.getLong("version"));
-        cart.setDateCreated(resultSet.getTimestamp("date_created").toLocalDateTime());
-        cart.setDateLastUpdated(resultSet.getTimestamp("date_last_updated").toLocalDateTime());
+        cart.setDateCreated(
+                resultSet.getTimestamp("date_created").toLocalDateTime());
+        cart.setDateLastUpdated(
+                resultSet.getTimestamp("date_last_updated").toLocalDateTime());
 
         return cart;
     }

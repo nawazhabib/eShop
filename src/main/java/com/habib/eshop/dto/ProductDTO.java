@@ -9,14 +9,19 @@ public class ProductDTO {
     private BigDecimal price;
 
     public ProductDTO(Long id, String name, String description, BigDecimal price) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public Long getId(){ return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(){ this.id=id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

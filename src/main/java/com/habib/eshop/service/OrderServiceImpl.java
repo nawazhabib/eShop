@@ -14,22 +14,26 @@ public class OrderServiceImpl implements OrderService{
     private ShippingAddressRepository shippingAddressRepository;
     private CartRepository cartRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ShippingAddressRepository shippingAddressRepository, CartRepository cartRepository){
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            ShippingAddressRepository shippingAddressRepository,
+                            CartRepository cartRepository) {
         this.orderRepository = orderRepository;
-        this.cartRepository = cartRepository;
         this.shippingAddressRepository = shippingAddressRepository;
+        this.cartRepository = cartRepository;
     }
 
     @Override
-    public void processOrder(ShippingAddressDTO shippingAddressDTO, User currentUser){
+    public void processOrdre(ShippingAddressDTO shippingAddressDTO, User currentUser) {
         var shippingAddress = convertTo(shippingAddressDTO);
         var savedShippingAddress = shippingAddressRepository.save(shippingAddress);
-        var cart = cartRepository.findByUser(currentUser).orElseThrow(()->
-                new CartItemNotFoundException("Cart Not found by current users")
-                );
+
+        var cart = cartRepository.findByUser(currentUser)
+                .orElseThrow(() ->
+                        new CartItemNotFoundException(
+                                "Cart Not found by current users"));
 
         Order order = new Order();
-        order.getCart(cart);
+        order.setCart(cart);
         order.setShippingAddress(savedShippingAddress);
         order.setShipped(false);
         order.setUser(currentUser);
@@ -37,10 +41,10 @@ public class OrderServiceImpl implements OrderService{
         orderRepository.save(order);
     }
 
-    private ShippingAddress convertTo(ShippingAddressDTO shippingAddressDTO){
+    private ShippingAddress convertTo(ShippingAddressDTO shippingAddressDTO) {
         var shippingAddress = new ShippingAddress();
         shippingAddress.setAddress(shippingAddressDTO.getAddress());
-        shippingAddress.setAddress2(shippingAddressDTO.getCountry());
+        shippingAddress.setAddress2(shippingAddressDTO.getAddress2());
         shippingAddress.setCountry(shippingAddressDTO.getCountry());
         shippingAddress.setState(shippingAddressDTO.getState());
         shippingAddress.setZip(shippingAddressDTO.getZip());

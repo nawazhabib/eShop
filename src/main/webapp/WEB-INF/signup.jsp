@@ -96,4 +96,5 @@
         return true;
     }
 </script>
+
 <%@include file="includes/footer.jsp" %>

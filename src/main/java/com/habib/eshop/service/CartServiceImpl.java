@@ -4,6 +4,7 @@ import com.habib.eshop.domain.Cart;
 import com.habib.eshop.domain.CartItem;
 import com.habib.eshop.domain.Product;
 import com.habib.eshop.domain.User;
+import com.habib.eshop.exception.CartItemNotFoundException;
 import com.habib.eshop.exception.ProductNotFoundException;
 import com.habib.eshop.repository.CartItemRepository;
 import com.habib.eshop.repository.CartRepository;
@@ -79,7 +80,7 @@ public class CartServiceImpl implements CartService{
     private void removeProductToCart(Product productToRemove, Cart cart) {
         var itemOptional = cart.getCartItems()
                 .stream()
-                .filter(cartItem -> cartItem.getProduct().equals(productToRemove))
+                .filter(cartItem -> cartItem.getProduct().getId().equals(productToRemove.getId()))
                 .findAny();
 
         var cartItem = itemOptional
@@ -102,16 +103,17 @@ public class CartServiceImpl implements CartService{
 
         var cartItem = cartItemOptional
                 .map(this::increaseQuantityByOne)
-                .orElseGet(() -> createNewCartItem(product));
+                .orElseGet(() -> createNewCartItem(product, cart));
 
         cart.getCartItems().add(cartItem);
     }
 
-    private CartItem createNewCartItem(Product product) {
+    private CartItem createNewCartItem(Product product, Cart cart) {
         var cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setQuantity(1);
         cartItem.setPrice(product.getPrice());
+        cartItem.setCart(cart);
 
         return cartItemRepository.save(cartItem);
     }
@@ -132,7 +134,7 @@ public class CartServiceImpl implements CartService{
 
         return cart.getCartItems()
                 .stream()
-                .filter(cartItem -> cartItem.getProduct().equals(product))
+                .filter(cartItem -> cartItem.getProduct().getId().equals(product.getId()))
                 .findFirst();
     }
 

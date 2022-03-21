@@ -7,15 +7,17 @@ import javax.sql.DataSource;
 import java.util.ResourceBundle;
 
 public class ConnectionPool {
-    private static final ConnectionPool INSTANCE = new ConnectionPool();
+    private static final ConnectionPool INSTANCE
+            = new ConnectionPool();
 
-    private ConnectionPool(){}
+    private ConnectionPool() {
+    }
 
-    public static ConnectionPool getInstance(){
+    public static ConnectionPool getInstance() {
         return INSTANCE;
     }
 
-    public DataSource getDataSource(){
+    public DataSource getDataSource() {
         var dbProp = ResourceBundle.getBundle("db");
 
         var config = new HikariConfig();
@@ -23,9 +25,14 @@ public class ConnectionPool {
         config.setUsername(dbProp.getString("db.user"));
         config.setPassword(dbProp.getString("db.password"));
         config.setDriverClassName(dbProp.getString("db.driver"));
-
-        var maxPoolSize = dbProp.getString("db.max.connections");
+        var maxPoolSize
+                = dbProp.getString("db.max.connections");
         config.setMaximumPoolSize(Integer.parseInt(maxPoolSize));
+
+        config.setMinimumIdle(0);
+        config.setConnectionTimeout(30000);
+        config.setIdleTimeout(35000);
+        config.setMaxLifetime(45000);
 
         return new HikariDataSource(config);
     }

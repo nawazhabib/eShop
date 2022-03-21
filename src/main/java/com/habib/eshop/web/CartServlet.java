@@ -53,7 +53,7 @@ public class CartServlet extends HttpServlet {
     private void processCart(String productId, String action, Cart cart){
         switch (Action.valueOf(action.toUpperCase())){
             case ADD:
-                LOGGER.info("Recived request to add product with id: {} to cart", productId);
+                LOGGER.info("Received request to add product with id: {} to cart", productId);
                 cartService.addProductToCart(productId, cart);
                 break;
             case REMOVE:

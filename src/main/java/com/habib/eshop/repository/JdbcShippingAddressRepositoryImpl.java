@@ -1,5 +1,10 @@
 package com.habib.eshop.repository;
 
+import com.habib.eshop.domain.ShippingAddress;
+import com.habib.eshop.jdbc.JDBCTemplate;
+
+import java.util.Optional;
+
 public class JdbcShippingAddressRepositoryImpl implements ShippingAddressRepository{
     private JDBCTemplate jdbcTemplate = new JDBCTemplate();
 

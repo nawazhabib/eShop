@@ -25,7 +25,6 @@ public class PasswordEqualValidator implements ConstraintValidator<PasswordEqual
 
             valid = Objects.equals(firstObj, secondObj);
         } catch (final Exception ignore) {
-            // ignore
         }
 
         if (!valid) {

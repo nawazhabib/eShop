@@ -85,12 +85,11 @@
     </div>
 </div>
 
-    <script>
-        function addToCart(productId){
-            let form = document.getElementById("addToCart_"+productId);
-            form.submit();
-        }
-    </script>
-</div>
+<script>
+    function addToCart(productId) {
+        let form = document.getElementById("addToCart_" + productId);
+        form.submit();
+    }
+</script>
 
 <%@include file="includes/footer.jsp" %>

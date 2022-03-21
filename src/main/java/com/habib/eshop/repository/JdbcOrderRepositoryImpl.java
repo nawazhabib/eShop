@@ -1,5 +1,12 @@
 package com.habib.eshop.repository;
 
+import com.habib.eshop.domain.Order;
+import com.habib.eshop.domain.User;
+import com.habib.eshop.jdbc.JDBCTemplate;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class JdbcOrderRepositoryImpl implements OrderRepository{
     private JDBCTemplate jdbcTemplate = new JDBCTemplate();
     private CartRepository cartRepository

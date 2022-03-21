@@ -9,46 +9,43 @@ public class Order extends Domain{
     private boolean shipped;
     private User user;
 
-
+    public Cart getCart() {
+        return cart;
+    }
 
     public void setCart(Cart cart) {
         this.cart = cart;
-    }
-
-    public void setShippingAddress(ShippingAddress shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
-    public void setShippingDate(LocalDateTime shippingDate) {
-        this.shippingDate = shippingDate;
-    }
-
-    public void setShipped(boolean shipped) {
-        this.shipped = shipped;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-    public Cart getCart() {
-        return cart;
     }
 
     public ShippingAddress getShippingAddress() {
         return shippingAddress;
     }
 
+    public void setShippingAddress(ShippingAddress shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
     public LocalDateTime getShippingDate() {
         return shippingDate;
+    }
+
+    public void setShippingDate(LocalDateTime shippingDate) {
+        this.shippingDate = shippingDate;
     }
 
     public boolean isShipped() {
         return shipped;
     }
 
+    public void setShipped(boolean shipped) {
+        this.shipped = shipped;
+    }
+
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

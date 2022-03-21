@@ -49,17 +49,17 @@ public class User extends Domain{
         this.lastName = lastName;
     }
 
-
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass() ) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
 
         return username.equals(user.username);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(username);
     }
 }

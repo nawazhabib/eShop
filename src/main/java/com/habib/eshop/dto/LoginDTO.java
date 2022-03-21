@@ -32,7 +32,6 @@ public class LoginDTO {
 
     @Override
     public String toString() {
-
         return "username=" + username;
     }
 
